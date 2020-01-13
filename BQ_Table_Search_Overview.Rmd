@@ -1,0 +1,30 @@
+---
+title: "ISB-CGC BigQuery Table Search"
+output:
+  slidy_presentation: default
+---
+
+<style type="text/css">
+body {
+  color: #002664;
+  font: 15px arial;
+}
+</style>
+
+## ISB-CGC BigQuery Table Search {data-background=slide_background.png}
+
+
+* Allows users to identify and learn more about available ISB-CGC BigQuery tables
+* No login required!
+* Each table has been curated to include detailed table and field descriptions as well as table labels
+* Search for table(s) of interest using a free-form text search or via available filters (including status, reference genome build, data format, category)
+* Explore table(s) of interest; learn about the data formats, data types and data sources
+* Preview first few ~10 lines of the table of interest
+* Want to query the ISB-CGC BigQuery tables? Contact us about setting up a Google Cloud Project and cloud credits!
+
+## ISB-CGC BigQuery Table Search
+
+```{r, out.width='100%', echo=FALSE}
+
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
