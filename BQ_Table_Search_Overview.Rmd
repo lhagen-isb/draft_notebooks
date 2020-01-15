@@ -1,18 +1,19 @@
 ---
 title: "ISB-CGC BigQuery Table Search"
 output:
-  slidy_presentation: default
+  slidy_presentation:
+    logo: ISB_Logo_Primary_RGB.png
 ---
 
 <style type="text/css">
 body {
-  color: #002664;
+  color: #FFFFFF;
   font: 15px arial;
+  background: #002664
 }
 </style>
 
 ## ISB-CGC BigQuery Table Search {data-background=slide_background.png}
-
 
 * Allows users to identify and learn more about available ISB-CGC BigQuery tables
 * No login required!
@@ -22,9 +23,47 @@ body {
 * Preview first few ~10 lines of the table of interest
 * Want to query the ISB-CGC BigQuery tables? Contact us about setting up a Google Cloud Project and cloud credits!
 
-## ISB-CGC BigQuery Table Search
+## How to Navigate to BigQuery Table Search
+
+```{r, out.width='100%', echo=FALSE}
+
+knitr::include_graphics("./BiqQuery_Table_Searcher_Links.gif")
+```
+
+ADD voice stuff
+
+## ISB-CGC BigQuery Table Search Main Page
 
 ```{r, out.width='100%', echo=FALSE}
 
 knitr::include_graphics("./BigQuery_Table_Search.png")
 ```
+
+Add voice stuff
+
+## More Basic Demo
+
+How to find spefic tables
+
+## Different filters
+
+Overview of the filters. Gif with scroll
+
+## Search by Data Type
+
+Talk about finding the miRNA expression
+
+## How to find how to sort by create date
+
+gif with how to sort by the top row
+
+## Preview information
+
+Talk about how to find the table name for BQ
+
+## Preview of preview table information
+
+Gif with the table preview
+
+## Highlight links at the top of the page
+plug the documentation
