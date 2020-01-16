@@ -1,8 +1,6 @@
 ---
 title: "ISB-CGC BigQuery Table Search"
-output:
-  slidy_presentation:
-    logo: ISB_Logo_Primary_RGB.png
+output: slidy_presentation
 ---
 
 <style type="text/css">
@@ -13,7 +11,11 @@ body {
 }
 </style>
 
-## ISB-CGC BigQuery Table Search {data-background=slide_background.png}
+<!-- 
+Hello, and welcome to an overview of the BigQuery Table Search from the ISB-CGC.
+-->
+
+## ISB-CGC BigQuery Table Search
 
 * Allows users to identify and learn more about available ISB-CGC BigQuery tables
 * No login required!
@@ -21,16 +23,21 @@ body {
 * Search for table(s) of interest using a free-form text search or via available filters (including status, reference genome build, data format, category)
 * Explore table(s) of interest; learn about the data formats, data types and data sources
 * Preview first few ~10 lines of the table of interest
-* Want to query the ISB-CGC BigQuery tables? Contact us about setting up a Google Cloud Project and cloud credits!
+
+<!-- 
+The BigQuery Table Search allows users to explore the available data sets and tables from the ISB-CGC and the Genomic Data Commons. This feature does not require the user to log in. Each table has been curated to include descriptions and tags, to help you find the data you need.
+-->
 
 ## How to Navigate to BigQuery Table Search
 
-```{r, out.width='100%', echo=FALSE}
+```{r, out.width='600px', out.height='388', echo=FALSE}
 
 knitr::include_graphics("./BiqQuery_Table_Searcher_Links.gif")
 ```
 
-ADD voice stuff
+<!-- 
+The BigQuery Table Search can be found on the ISB-CGC homepage by clicking on one of the links.
+-->
 
 ## ISB-CGC BigQuery Table Search Main Page
 
@@ -39,31 +46,65 @@ ADD voice stuff
 knitr::include_graphics("./BigQuery_Table_Search.png")
 ```
 
-Add voice stuff
+<!--
+You are able to find tables of interest based on category, reference genome build, data type and free-form text search.
 
-## More Basic Demo
-
-How to find spefic tables
+Let's say, for example, that you wanted to find a specific table type such as the miRNA tables with the label of open within BigQuery but didn't have a project yet and wanted to make sure there were ones available.
+-->
 
 ## Different filters
 
-Overview of the filters. Gif with scroll
+```{r, out.width='100%', echo=FALSE}
+# Gif with clicking the 'show more filters'
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
+
+<!--
+There are several different filters available to sort through the tables available. We will click Show More Filters and then type open into the Labels field.
+-->
 
 ## Search by Data Type
 
-Talk about finding the miRNA expression
+```{r, out.width='100%', echo=FALSE}
+# Gif the MIRNA EXPRESSION data type filled
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
+
+<!--
+To add a data type, you can click on the Data Type box to choose a data type from the drop down menu. You can also start typing the data type you would like to filter the list. We are going to select the miRNA Expression data type. The list of tables will only then display the tables that meet our creteria.
+-->
 
 ## How to find how to sort by create date
 
-gif with how to sort by the top row
+```{r, out.width='100%', echo=FALSE}
+# Gif with the list sorting to the most recent on top
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
+
+<!--
+The list then can be sorted by any of the header rows. Let's sort by create date to find the most recent tables.
+-->
 
 ## Preview information
 
-Talk about how to find the table name for BQ
+```{r, out.width='100%', echo=FALSE}
+# Gif with the preview information expanding
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
 
-## Preview of preview table information
-
-Gif with the table preview
+<!--
+To find out more information about the table, click the plus button on the left hand side of the Dataset ID to reveal more information about the table itself such as the table description and feild information. The table ID for use in a query can be created from the ID but with the semicolon replaced with a period.
+-->
 
 ## Highlight links at the top of the page
-plug the documentation
+
+```{r, out.width='100%', echo=FALSE}
+# Gif with the links at the top of the page highlighted
+knitr::include_graphics("./BigQuery_Table_Search.png")
+```
+
+Visit us at isb-cgc.org
+Questions or feedback, please email us at feedback@isb-cgc.org.
+
+<!-- Our BigQuery Documentation has more indepth information on our BigQuery Tables along with example notebooks in the Community Notebook Repository. Google offers a free tier for exploring the Google Cloud capabilities though a Google Cloud Project will need to be set up. Visit us at isb-cgc.org and please let know if you have any questions or feedback, we always enjoy hearing from our users.
+-->
