@@ -5,11 +5,15 @@ output: rmarkdown::github_document
 
 # ISB-CGC Community Notebooks
 
+Check out more notebooks at our [Community Notebooks Repository](https://github.com/isb-cgc/Community-Notebooks)!
+
 ```
 Title:   How to Use ISB-CGC APIs
 Author:  Lauren Hagen
 Created: 2019-09-16
-Purpose: Introduction to using ISB-CGC APIs with Python
+Purpose: Introduction to using ISB-CGC APIs with R
+URL:     https://github.com/isb-cgc/Community-Notebooks/blob/master/Notebooks/How_to_use_ISB-CGC_APIs.Rmd
+Notes:
 ```
 
 # How to Use ISB-CGC APIs
@@ -27,7 +31,7 @@ Topic Covered:
 ISB-CGC has created several APIs to interact with ISB-CGC and user data available on Google Cloud Platforms. They were created with Google’s OpenAPI Endpoints and can be accessed through a [SwaggerUI interface](https://api-dot-isb-cgc.appspot.com/v4/swagger/). For more information on ISB-CGC APIs, please visit [our documentation](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/progapi/progAPI-v4/Programmatic-Demo.html).
 
 ### Overview of APIs
-An API or application-programming interface is a software intermediary that allows two applications to talk to each other. In other words, an API is the messenger that delivers your request to the provider that you’re requesting it from and then delivers the response back to you. [(Wikipedia)](https://en.wikipedia.org/wiki/Application_programming_interface). Each action that an API can take is called an "endpoint".
+An API or application-programming interface is a software intermediary that allows two applications to talk to each other. In other words, an API is the messenger that delivers your request to the provider that you’re requesting it from and then delivers the response back to you [(Wikipedia)](https://en.wikipedia.org/wiki/Application_programming_interface). Each action that an API can take is called an "endpoint".
 
 Some useful tutorials and quick start guides on APIs are:
 
@@ -99,13 +103,13 @@ content(about_req)$documentation
 
 That wasn't difficult at all! Next we will cover a few of the other information APIs.
 
-## Example: `programs` Endpoint
+## Example: `/data/availabile` Endpoint
 
-The ``programs` Endpoint is designed to return the data sets and programs available on the WebApp along with the projects or studies that are within those data sets and programs. This endpoint returns a more complicated response object which can be accessed as if it was a combination of lists and vectors. We will first retrieve the request and then view if there was an error code within the response.
+The `/data/availabile` Endpoint is designed to return the data sets and programs available on the WebApp along with the projects or studies that are within those data sets and programs. This endpoint returns a more complicated response object which can be accessed as if it was a combination of lists and vectors. We will first retrieve the request and then view if there was an error code within the response.
 
 ```{r}
 # First submit the 'get' request to the API
-programs_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/programs")
+programs_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/data/available")
 # Check that the wasn't an error with the request
 if (programs_req$status_code != "200") {
   # Print the error code if something went wrong
@@ -128,7 +132,7 @@ Now that we can see the body of the request, we can see the data that we are rea
 
 ```{r}
 # Create a variable with just the dataset information
-datasets <- programs$data
+datasets <- programs$programs_for_cohorts
 # Create an empty variable for the programs
 program_list <- c()
 # For each data set, find the programs associated with it and fill in the programs vector
@@ -170,6 +174,8 @@ The following steps are required to use an API that Requires Authorization:
   * By default, it will save the file in the users folder of your local machine with the file name: ".isb_credentials"
 5. Load the Credential file into the cloud environment you are using (if needed)
 
+*The 'Quick Start Guide to ISB-CGC' Notebook in the [Community Notebook Repository](https://github.com/isb-cgc/Community-Notebooks/tree/master/Notebooks) and the [How to Get Started on ISB-CGC](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/HowToGetStartedonISB-CGC.html) can assist you with these steps.
+
 We will need two packages, jsonlite and stringr, to help us load the credentials and then create a string to add to our request.
 
 ```{r}
@@ -194,13 +200,11 @@ head <- str_c('Bearer ',creds)
 
 If you are having any issues, you can contact us at feedback@isb-cgc.org
 
-*The 'Quick Start Guide to ISB-CGC' Notebook in the [Community Notebook Repository](https://github.com/isb-cgc/Community-Notebooks/tree/master/Notebooks) and the [How to Get Started on ISB-CGC](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/HowToGetStartedonISB-CGC.html) can assist you with these steps.
-
 Finally, we can make a `get` request to the `cohorts` ISB-CGC API.
 
 ```{r}
 #add_headers(Authorization="bearer <your api key>")
-cohort_req <- GET("https://mvm-api-dot-isb-cgc.appspot.com/v4/cohorts", add_headers(Authorization=head))
+cohort_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/cohorts", add_headers(Authorization=head))
 # Check that the wasn't an error with the request
 if (cohort_req$status_code != "200") {
   # Print the error code if something went wrong

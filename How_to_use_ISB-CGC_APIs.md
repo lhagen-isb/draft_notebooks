@@ -3,10 +3,15 @@ How to Use ISB-CGC APIs
 
 # ISB-CGC Community Notebooks
 
+Check out more notebooks at our [Community Notebooks
+Repository](https://github.com/isb-cgc/Community-Notebooks)\!
+
     Title:   How to Use ISB-CGC APIs
     Author:  Lauren Hagen
     Created: 2019-09-16
-    Purpose: Introduction to using ISB-CGC APIs with Python
+    Purpose: Introduction to using ISB-CGC APIs with R
+    URL:     https://github.com/isb-cgc/Community-Notebooks/blob/master/Notebooks/How_to_use_ISB-CGC_APIs.Rmd
+    Notes:
 
 # How to Use ISB-CGC APIs
 
@@ -35,7 +40,7 @@ documentation](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sectio
 An API or application-programming interface is a software intermediary
 that allows two applications to talk to each other. In other words, an
 API is the messenger that delivers your request to the provider that
-you’re requesting it from and then delivers the response back to you.
+you’re requesting it from and then delivers the response back to you
 [(Wikipedia)](https://en.wikipedia.org/wiki/Application_programming_interface).
 Each action that an API can take is called an “endpoint”.
 
@@ -128,11 +133,11 @@ about_req
 ```
 
     ## Response [https://api-dot-isb-cgc.appspot.com/v4/about]
-    ##   Date: 2019-11-05 19:15
+    ##   Date: 2020-01-29 00:28
     ##   Status: 200
     ##   Content-Type: application/json
-    ##   Size: 292 B
-    ## {"code":200,"documentation":"SwaggerUI interface available at <https://a...
+    ##   Size: 304 B
+    ## {"code":200,"documentation":"SwaggerUI interface available at <https://api-do...
 
 ``` r
 # Next we display the body of the request using content()
@@ -143,7 +148,7 @@ content(about_req)
     ## [1] 200
     ## 
     ## $documentation
-    ## [1] "SwaggerUI interface available at <https://api-dot-isb-cgc.appspot.com/v4/swagger/>.Documentation available at <https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/progapi/Programmatic-API.html>"
+    ## [1] "SwaggerUI interface available at <https://api-dot-isb-cgc.appspot.com/v4/swagger/>.Documentation available at <https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/progapi/progAPI-v4/Programmatic-Demo.html>"
     ## 
     ## $message
     ## [1] "Welcome to the ISB-CGC API, Version 4."
@@ -159,14 +164,14 @@ content(about_req)$message
 content(about_req)$documentation
 ```
 
-    ## [1] "SwaggerUI interface available at <https://api-dot-isb-cgc.appspot.com/v4/swagger/>.Documentation available at <https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/progapi/Programmatic-API.html>"
+    ## [1] "SwaggerUI interface available at <https://api-dot-isb-cgc.appspot.com/v4/swagger/>.Documentation available at <https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/progapi/progAPI-v4/Programmatic-Demo.html>"
 
 That wasn’t difficult at all\! Next we will cover a few of the other
 information APIs.
 
-## Example: `programs` Endpoint
+## Example: `/data/availabile` Endpoint
 
-The \``programs` Endpoint is designed to return the data sets and
+The `/data/availabile` Endpoint is designed to return the data sets and
 programs available on the WebApp along with the projects or studies that
 are within those data sets and programs. This endpoint returns a more
 complicated response object which can be accessed as if it was a
@@ -175,7 +180,7 @@ then view if there was an error code within the response.
 
 ``` r
 # First submit the 'get' request to the API
-programs_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/programs")
+programs_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/data/available")
 # Check that the wasn't an error with the request
 if (programs_req$status_code != "200") {
   # Print the error code if something went wrong
@@ -193,19 +198,18 @@ programs <- content(programs_req)
 summary(programs)
 ```
 
-    ##      Length Class  Mode   
-    ## code 1      -none- numeric
-    ## data 3      -none- list
+    ##                           Length Class  Mode     
+    ## code                      1      -none- numeric  
+    ## datasets_for_registration 1      -none- character
+    ## programs_for_cohorts      3      -none- list
 
 ``` r
 # View the summary of the first data list
 summary(programs$data[[1]])
 ```
 
-    ##             Length Class  Mode     
-    ## description  0     -none- NULL     
-    ## name         1     -none- character
-    ## projects    33     -none- list
+    ##    Length     Class      Mode 
+    ##         1 character character
 
 Now that we can see the body of the request, we can see the data that we
 are really interested in with this endpoint. Next we will iterate over
@@ -214,7 +218,7 @@ with which projects/studies are available.
 
 ``` r
 # Create a variable with just the dataset information
-datasets <- programs$data
+datasets <- programs$programs_for_cohorts
 # Create an empty variable for the programs
 program_list <- c()
 # For each data set, find the programs associated with it and fill in the programs vector
@@ -291,6 +295,12 @@ Authorization:
 5.  Load the Credential file into the cloud environment you are using
     (if needed)
 
+\*The ‘Quick Start Guide to ISB-CGC’ Notebook in the [Community Notebook
+Repository](https://github.com/isb-cgc/Community-Notebooks/tree/master/Notebooks)
+and the [How to Get Started on
+ISB-CGC](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/HowToGetStartedonISB-CGC.html)
+can assist you with these steps.
+
 We will need two packages, jsonlite and stringr, to help us load the
 credentials and then create a string to add to our request.
 
@@ -326,17 +336,11 @@ script again.
 If you are having any issues, you can contact us at
 <feedback@isb-cgc.org>
 
-\*The ‘Quick Start Guide to ISB-CGC’ Notebook in the [Community Notebook
-Repository](https://github.com/isb-cgc/Community-Notebooks/tree/master/Notebooks)
-and the [How to Get Started on
-ISB-CGC](https://isb-cancer-genomics-cloud.readthedocs.io/en/latest/sections/HowToGetStartedonISB-CGC.html)
-can assist you with these steps.
-
 Finally, we can make a `get` request to the `cohorts` ISB-CGC API.
 
 ``` r
 #add_headers(Authorization="bearer <your api key>")
-cohort_req <- GET("https://mvm-api-dot-isb-cgc.appspot.com/v4/cohorts", add_headers(Authorization=head))
+cohort_req <- GET("https://api-dot-isb-cgc.appspot.com/v4/cohorts", add_headers(Authorization=head))
 # Check that the wasn't an error with the request
 if (cohort_req$status_code != "200") {
   # Print the error code if something went wrong
@@ -349,12 +353,12 @@ if (cohort_req$status_code != "200") {
 cohort_req
 ```
 
-    ## Response [https://mvm-api-dot-isb-cgc.appspot.com/v4/cohorts]
-    ##   Date: 2019-11-05 19:15
+    ## Response [https://api-dot-isb-cgc.appspot.com/v4/cohorts]
+    ##   Date: 2020-01-29 00:28
     ##   Status: 200
     ##   Content-Type: application/json
-    ##   Size: 515 B
-    ## {"code":200,"data":[{"filters":{"TCGA":[{"name":"disease_code","program"...
+    ##   Size: 644 B
+    ## {"code":200,"data":[{"filters":{"TCGA":[{"name":"gender","program":"TCGA","va...
 
 Then we can retrieve the contents of the response and view which cohorts
 have been created.
@@ -378,9 +382,10 @@ for (k in cohorts$data) {
 }
 ```
 
-    ## [1] "1 Test"
+    ## [1] "1 Test 1"
     ## [1] "2 All TCGA Data"
     ## [1] "3 Test 2"
+    ## [1] "4 Test 4"
 
 ``` r
 # View the filters that have been applied to the first cohort
@@ -390,21 +395,21 @@ cohorts$data[[1]]$filters
     ## $TCGA
     ## $TCGA[[1]]
     ## $TCGA[[1]]$name
-    ## [1] "disease_code"
+    ## [1] "gender"
     ## 
     ## $TCGA[[1]]$program
     ## [1] "TCGA"
     ## 
     ## $TCGA[[1]]$value
-    ## [1] "SKCM"
+    ## [1] "FEMALE"
     ## 
     ## 
     ## $TCGA[[2]]
     ## $TCGA[[2]]$name
-    ## [1] "sample_type"
+    ## [1] "age_at_diagnosis"
     ## 
     ## $TCGA[[2]]$program
     ## [1] "TCGA"
     ## 
     ## $TCGA[[2]]$value
-    ## [1] "10"
+    ## [1] "70 to 79"

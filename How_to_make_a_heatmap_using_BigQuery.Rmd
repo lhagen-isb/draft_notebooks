@@ -16,7 +16,7 @@ Notes:   Original notebook adpated for R by Lauren Hagen
 Repo:    https://github.com/isb-cgc/Community-Notebooks/blob/master/Notebooks/How_to_make_a_heatmap_using_BigQuery.Rmd
 ```
 
-In this notebook, we will cover how to use BigQuery to pull some data (in the cloud so data transfer is free!), make a correlation (or distance) matrix, and visualize that result in a heatmap.
+In this notebook, we will cover how to use BigQuery to pull some data, make a correlation (or distance) matrix, and visualize that result in a heatmap.
 
 It's also possible to compute the correlations *inside* BigQuery, which is a good use of the technology, but for simplicity's sake, we'll use R.
 
@@ -55,7 +55,7 @@ OK, we're going to query for some data using a preselected gene set from MSigDB.
 genes <- read.delim('https://www.gsea-msigdb.org/gsea/msigdb/download_geneset.jsp?geneSetName=HALLMARK_TGF_BETA_SIGNALING&fileType=txt', skip = 1)
 ```
 
-So, now that we have our list of genes, we will create a SQL string to communitcate to the Google mothership. 
+So, now that we have our list of genes, we will create a SQL string to communicate to the Google mothership. 
 
 Here, the SQL is captured as a string. Using the Google BigQuery web interface is a good place to prototype SQL.
 
@@ -128,8 +128,30 @@ colSide <- brewer.pal(9, "Set1")[my_group]
 heatmap(cormat, ColSideColors = colSide)
 ```
 
+Cool! The tissue types separated out, and it looks like KIRC (blue bar) clusters into two groups.
+
+There are several packages to give more options for creating heatmaps. We are going to explore `pheatmap` from the `pheatmap` package but there is also `heatmap.2` from the `gplots` package and `superheat` from the `superheat` package.
+
+First, we will make a basic heat map with `pheatmap`:
 
 ```{r}
 pheatmap(cormat, fontsize_col = 5, fontsize_row = 4, cluster_row = FALSE, cluster_cols = FALSE)
+```
+
+Now, lets add some clustering to the heatmap:
+
+```{r}
+# Create a dataframe with the study as factors and the sample barcodes as the row names
+annot <- data.frame(Study = factor(cormat_lab$project_short_name))
+rownames(annot) <- cormat_lab$sample_barcode
+# Define a list for the annotation labels
+ann_colors <- list(
+  Study = c("TCGA-KIRC" = "#377EB8", "TCGA-GBM" = "#E41A1C")
+)
+# Create heatmap
+pheatmap(cormat, fontsize_col = 5, fontsize_row = 4, 
+         annotation_row = annot, annotation_names_row = FALSE,
+         annotation_colors = ann_colors,
+         cutree_rows = 3, border_color = NA)
 ```
 
